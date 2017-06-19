@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Monster } from '../gameobjects/monster';
-
+import { GameController } from '../gamecomponent/gamecontroller.service';
 
 @Injectable()
 export class MonsterController{
@@ -23,7 +23,7 @@ export class MonsterController{
     }
   }
 
-  startGame(owner:string, name:string){
+  makeMonster(owner:string, name:string){
 
     //check for load game
     this.monster = new Monster(name, owner);
@@ -58,17 +58,13 @@ export class MonsterController{
 
     if(this.monster.experience >= this.monster.expToNext){
       this.monster.levelUp();
-      this.save();
+      //this.gamecontroller.save();
+      //autosave when levelup
     }
   }
 
-  save(){
-
-  }
-
-  load(monster:Monster){
-    console.log("Loading monster");
-    console.log(this.monster);
+  loadMonster(monster:Monster){
+    console.log("monstercontroller: loadMonster()");
     this.monster = new Monster("","");
     this.monster.loadMonster(monster);
   }

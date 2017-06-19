@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { UserData } from '../network/dataobjects';
+import { UserData, PlayerData } from '../network/dataobjects';
 
 
 @Injectable()
 export class PlayerController{
 
   userdata:UserData;
+  playerdata:PlayerData;
+
   previousTimeStamp:number = -1;
   currentTimeStamp:number = -1;
-  food:number;
-  stamina:number;
+
   maxstamina:number = 10;
   maxfood:number = 5;
-
-  pvptokens:number;
   maxpvptokens:number = 3;
 
 
@@ -25,9 +24,10 @@ export class PlayerController{
   nextStamSecs:number = 0;
 
   constructor(){
-    this.food = this.maxfood;
-    this.stamina = this.maxstamina;
-    this.pvptokens = this.maxpvptokens;
+    this.playerdata = new PlayerData();
+    this.playerdata.food = this.maxfood;
+    this.playerdata.stamina = this.maxstamina;
+    this.playerdata.pvptokens = this.maxpvptokens;
   }
 
   update(){
@@ -53,35 +53,63 @@ export class PlayerController{
   }
 
   eatFood(){
-    this.food--;
-    if(this.food < 0){
-      this.food = 0;
+    this.playerdata.food--;
+    if(this.playerdata.food < 0){
+      this.playerdata.food = 0;
     }
   }
 
   useStamina(){
-    this.stamina--;
-    if(this.stamina < 0){
-      this.stamina = 0;
+    this.playerdata.stamina--;
+    if(this.playerdata.stamina < 0){
+      this.playerdata.stamina = 0;
     }
   }
 
   addStamina(){
-    this.stamina++;
-    if(this.stamina > this.maxstamina){
-      this.stamina = this.maxstamina;
+    this.playerdata.stamina++;
+    if(this.playerdata.stamina > this.maxstamina){
+      this.playerdata.stamina = this.maxstamina;
     }
   }
 
   addFood(){
-    this.food++;
-    if(this.food > this.maxfood){
-      this.food = this.maxfood;
+    this.playerdata.food++;
+    if(this.playerdata.food > this.maxfood){
+      this.playerdata.food = this.maxfood;
     }
   }
 
   setUserData(userdata:UserData){
+    console.log("playercontroller: setUserData");
     this.userdata = userdata;
+  }
+
+  loadUserData(userdata:UserData){
+    console.log("playercontroller: loadUserData");
+    console.log(userdata);
+    var ud:UserData = new UserData();
+    ud.userID = userdata.userID;
+    ud.authKey = userdata.authKey;
+    this.userdata = ud;
+    console.log(ud);
+  }
+
+  loadPlayerData(playerdata:PlayerData){
+    console.log("playercontroller: loadPlayerData");
+    console.log(playerdata);
+    var pd = new PlayerData();
+    pd.food = playerdata.food;
+    pd.stamina = playerdata.stamina;
+    pd.lasttimestamp = playerdata.lasttimestamp;
+    pd.pvptokens = playerdata.pvptokens;
+    this.playerdata = pd;
+    this.eventsSinceLastLogin();
+  }
+
+  eventsSinceLastLogin(){
+    //things missed out, such as health decay
+    //save
   }
 
 }

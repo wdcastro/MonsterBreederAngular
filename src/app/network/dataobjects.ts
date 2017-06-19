@@ -10,6 +10,7 @@ export class ActionResult {
 }
 
 export class UserData {
+
   userID:string;
   authKey:number;
 }
@@ -19,13 +20,20 @@ export class TimeData{
   userID:string;
 }
 
+export class PlayerData{
+  food:number;
+  stamina:number;
+  pvptokens:number;
+  lasttimestamp:number;
+}
+
 export class LoginResult{
-  userID:string;
-  authKey:number;
-  loginCode:number;
+  userdata: UserData;
+  logincode:number;
 }
 
 export class SaveData {
   userdata:UserData;
+  playerdata:PlayerData;
   monster:Monster;
 }

@@ -28,6 +28,7 @@ export class NetworkManager{
     .catch(this.handleError);
   }
 
+/*
   getMonster(userdata:UserData): Promise<Monster>{
     console.log("getMonster()");
     return this.http.post("http://localhost:8080/load", userdata, this.options)
@@ -35,9 +36,10 @@ export class NetworkManager{
     .then(response => response.json())
     .catch(this.handleError);
   }
+  */
 
-  saveMonster(savedata:SaveData): Promise<SaveData>{
-    console.log("saveMonster");
+  saveGame(savedata:SaveData): Promise<SaveData>{
+    console.log("network: saveGame()");
     console.log(savedata);
     return this.http.post("http://localhost:8080/save", savedata, this.options)
     .toPromise()
@@ -45,21 +47,23 @@ export class NetworkManager{
     .catch(this.handleError);
   }
 
+  loadGame(userdata:UserData): Promise<SaveData>{
+    console.log("network: loadGame()");
+    console.log(userdata);
+    return this.http.post("http://localhost:8080/load", userdata, this.options)
+    .toPromise()
+    .then(response => response.json())
+    .catch(this.handleError);
+  }
+
   getTime(userdata:UserData): Promise<TimeData> {
+    console.log("network: getTime()");
     return this.http.post("http://localhost:8080/time", userdata, this.options)
     .toPromise()
     .then(response => response.json())
     .catch(this.handleError);
   }
 
-  registerMonster(monster:Monster): Promise<Monster> {
-    console.log("Registering monster");
-    console.log(monster);
-    return this.http.post("http://localhost:8080/monster", monster, this.options)
-     .toPromise()
-     .then(response => response.json())
-     .catch(this.handleError);
-  }
 
   /*postAction(): Promise<ActionResult> {
     console.log("getAction() started");

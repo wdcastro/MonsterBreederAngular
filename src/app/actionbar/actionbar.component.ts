@@ -19,7 +19,7 @@ constructor(private gamecontroller:GameController , private monstercontroller:Mo
 
 
   feedMonster(){
-    if(this.playercontroller.food > 0){
+    if(this.playercontroller.playerdata.food > 0){
       this.playercontroller.eatFood();
       this.monstercontroller.feedMonster();
     } else {
@@ -28,7 +28,7 @@ constructor(private gamecontroller:GameController , private monstercontroller:Mo
   }
 
   trainMonster(){
-    if(this.playercontroller.stamina > 0){
+    if(this.playercontroller.playerdata.stamina > 0){
       this.playercontroller.useStamina();
       this.monstercontroller.trainMonster();
     } else {

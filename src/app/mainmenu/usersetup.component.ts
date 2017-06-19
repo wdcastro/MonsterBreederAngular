@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NetworkManager } from '../network/network.service';
-import { UserData } from '../network/dataobjects';
+import { UserData, SaveData } from '../network/dataobjects';
 import { PlayerController } from '../gamecomponent/playercontroller.service';
 import { MonsterController } from '../gamecomponent/monstercontroller.service';
 import { GameController } from '../gamecomponent/gamecontroller.service';
@@ -36,14 +36,13 @@ export class UserSetupForm {
 
   handleLoginResponse(response:LoginResult){
     console.log(response);
-    switch(response.loginCode){
+    switch(response.logincode){
       case 1:
       //login success
       alert("Login success");
-      this.playercontroller.setUserData(this.userdata);
-      this.network.getMonster(this.userdata)
+      this.playercontroller.setUserData(response.userdata);
+      this.network.loadGame(response.userdata)
       .then(response => this.loadUser(response));
-
       break;
       case 2:
       //wrong password
@@ -55,24 +54,30 @@ export class UserSetupForm {
       alert("Registered as new user");
       this.makeUser(this.userdata);
       break;
+      default:
+      console.log(response.logincode);
+
     }
   }
 
-  loadUser(response:Monster){
-    this.monstercontroller.load(response);
+  loadUser(response:SaveData){
+    console.log("usersetupcomponent: loadUser");
+    console.log(response);
+    this.gamecontroller.load(response);
+    this.gamecontroller.startGame();
     this.goToGame();
   }
 
   goToGame(){
-    this.network.registerMonster(this.monstercontroller.monster).then(response => console.log(response));
+    this.gamecontroller.save();
     this.parentrouter.navigateByUrl('/game');
   }
 
   makeUser(userdata:UserData){
-    console.log("makeUser()");
+    console.log("usersetupcomponent: makeUser()");
     console.log("userID: " + userdata.userID + " authKey: "+ userdata.authKey);
     this.playercontroller.setUserData(userdata);
-    this.monstercontroller.startGame(userdata.userID, this.userForm.value.monstername);
+    this.monstercontroller.makeMonster(userdata.userID, this.userForm.value.monstername);
     this.gamecontroller.startGame();
     this.goToGame();
   }
