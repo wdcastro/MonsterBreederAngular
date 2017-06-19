@@ -1,0 +1,8 @@
+li {
+  padding:5px;
+  color: red;
+}
+
+li:hover{
+  color: blue;
+}

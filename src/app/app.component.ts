@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActionBarComponent } from './actionbar/actionbar.component';
+import { UserSetupForm } from './mainmenu/usersetup.component';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  title = 'Monster Breeder Game';
 }
